@@ -1,8 +1,9 @@
-import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import time
+from scrapers.http import fetch_html
 
+main
 
 def scrape_google_search(queries=None):
     """Scrape standard Google results for quantum startup discovery queries.
@@ -19,6 +20,7 @@ def scrape_google_search(queries=None):
             "quantum incubator site:chalmers.se",
             "quantum phd founder site:medium.com",
             "quantum AND (accelerator OR incubator OR phd OR spin-off)",
+            "quantum startup cohort",
             "quantum + recently launched startup",
             "quantum university lab commercialization",
             "quantum site:news.mit.edu",
@@ -35,15 +37,15 @@ def scrape_google_search(queries=None):
 
     results = []
 
-    headers = {
-        "User-Agent": "Mozilla/5.0"
-    }
-
     for query in queries:
         print(f"🔍 Scraping: {query}")
         url = f"https://www.google.com/search?q={query.replace(' ', '+')}&num=10&hl=en"
-        response = requests.get(url, headers=headers)
-        soup = BeautifulSoup(response.text, "html.parser")
+        try:
+            html = fetch_html(url)
+        except Exception:
+            time.sleep(1)
+            continue
+        soup = BeautifulSoup(html, "html.parser")
 
         for result in soup.select(".tF2Cxc"):
             title = result.select_one("h3")
