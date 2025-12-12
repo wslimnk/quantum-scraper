@@ -19,7 +19,6 @@ def scrape_google_search(queries=None):
             "quantum incubator site:chalmers.se",
             "quantum phd founder site:medium.com",
             "quantum AND (accelerator OR incubator OR phd OR spin-off)",
-            "quantum startup cohort",
             "quantum + recently launched startup",
             "quantum university lab commercialization",
             "quantum site:news.mit.edu",

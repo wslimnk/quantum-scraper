@@ -16,8 +16,8 @@ def scrape_google_news(queries=None):
             "quantum startup accelerator",
             "quantum incubator winner",
             "quantum phd founder",
+            "quantum startup"
             "quantum spin-off university",
-            "quantum startup",
             "quantum grant prize innovation",
             "quantum AND (incubator OR accelerator OR spin-off OR award OR grant OR prize)",
         ]
