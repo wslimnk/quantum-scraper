@@ -1,5 +1,8 @@
 import streamlit as st
+import pandas as pd   # ⬅️ THIS LINE WAS MISSING
 from main import run_scraper
+import datetime
+
 
 st.set_page_config(page_title="Quantum Startup Super Scraper", layout="wide")
 
