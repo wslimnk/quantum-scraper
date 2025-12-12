@@ -1,12 +1,12 @@
 # quantum_scraper/main.py (updated with 170+ deep queries)
 
 from scraper_utils import run_all_scrapers
-def run_scraper():
-    """
-    Entry point for Streamlit.
-    This function MUST exist and MUST be importable.
-    """
-    return run_all_scrapers()
+
+
+def run_scraper(queries=None):
+    """Entry point for Streamlit; returns combined leads DataFrame and file path."""
+
+    return run_all_scrapers(queries=queries)
 def smart_queries():
     return [
         # France
