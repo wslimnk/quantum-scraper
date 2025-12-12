@@ -3,6 +3,7 @@ import pandas as pd
 import time
 from scrapers.http import fetch_html
 
+main
 
 def scrape_google_search(queries=None):
     """Scrape standard Google results for quantum startup discovery queries.
