@@ -2,16 +2,25 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-def scrape_google_news():
-    queries = [
-        "quantum startup accelerator",
-        "quantum incubator winner",
-        "quantum phd founder",
-        "quantum spin-off university",
-        "quantum startup 2023",
-        "quantum grant prize innovation",
-        "quantum AND (incubator OR accelerator OR spin-off OR award OR grant OR prize)",
-    ]
+
+def scrape_google_news(queries=None):
+    """Scrape Google search (news vertical) results for quantum startup queries.
+
+    The function now accepts an optional ``queries`` list passed in from the
+    Streamlit app. If ``None`` is provided, we fall back to a sensible default
+    list that targets accelerators, incubators, and grant/award announcements.
+    """
+
+    if not queries:
+        queries = [
+            "quantum startup accelerator",
+            "quantum incubator winner",
+            "quantum phd founder",
+            "quantum spin-off university",
+            "quantum startup",
+            "quantum grant prize innovation",
+            "quantum AND (incubator OR accelerator OR spin-off OR award OR grant OR prize)",
+        ]
 
     results = []
 

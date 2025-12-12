@@ -9,14 +9,25 @@ from scrapers.chalmers import scrape_chalmers
 from scrapers.basel import scrape_basel
 from scrapers.news_mit import scrape_mit_news
 from scrapers.qubitorbit import scrape_qubitorbit
+
+
+def _append_if_valid(dfs, df):
+    """Append non-empty DataFrames to the combined list."""
+
+    if isinstance(df, pd.DataFrame) and not df.empty:
+        dfs.append(df)
+
+
 def run_all_scrapers(queries=None):
+    """Run all individual scrapers and return a combined DataFrame and file path."""
+
     all_dfs = []
 
     print("🔬 Scraping arXiv...")
     try:
         df_arxiv = scrape_arxiv()
         df_arxiv["Source"] = "arXiv"
-        all_dfs.append(df_arxiv)
+        _append_if_valid(all_dfs, df_arxiv)
     except Exception as e:
         print("❌ arXiv failed:", e)
 
@@ -24,7 +35,7 @@ def run_all_scrapers(queries=None):
     try:
         df_news = scrape_google_news(queries)
         df_news["Source"] = "Google News"
-        all_dfs.append(df_news)
+        _append_if_valid(all_dfs, df_news)
     except Exception as e:
         print("❌ Google News failed:", e)
 
@@ -32,7 +43,7 @@ def run_all_scrapers(queries=None):
     try:
         df_search = scrape_google_search(queries)
         df_search["Source"] = "Google Search"
-        all_dfs.append(df_search)
+        _append_if_valid(all_dfs, df_search)
     except Exception as e:
         print("❌ Google Search failed:", e)
 
@@ -40,7 +51,7 @@ def run_all_scrapers(queries=None):
     try:
         df_duality = scrape_duality()
         df_duality["Source"] = "Duality"
-        all_dfs.append(df_duality)
+        _append_if_valid(all_dfs, df_duality)
     except Exception as e:
         print("❌ Duality failed:", e)
 
@@ -48,7 +59,7 @@ def run_all_scrapers(queries=None):
     try:
         df_polsky = scrape_polsky()
         df_polsky["Source"] = "Polsky"
-        all_dfs.append(df_polsky)
+        _append_if_valid(all_dfs, df_polsky)
     except Exception as e:
         print("❌ Polsky failed:", e)
 
@@ -56,7 +67,7 @@ def run_all_scrapers(queries=None):
     try:
         df_chalmers = scrape_chalmers()
         df_chalmers["Source"] = "Chalmers"
-        all_dfs.append(df_chalmers)
+        _append_if_valid(all_dfs, df_chalmers)
     except Exception as e:
         print("❌ Chalmers failed:", e)
 
@@ -64,7 +75,7 @@ def run_all_scrapers(queries=None):
     try:
         df_basel = scrape_basel()
         df_basel["Source"] = "Uni Basel"
-        all_dfs.append(df_basel)
+        _append_if_valid(all_dfs, df_basel)
     except Exception as e:
         print("❌ Basel failed:", e)
 
@@ -75,8 +86,8 @@ def run_all_scrapers(queries=None):
         output_file = f"quantum_leads_{timestamp}.xlsx"
         combined.to_excel(output_file, index=False)
         print(f"💾 Saved to {output_file}")
-        return output_file
-    else:
-        print("❌ No data collected.")
-        return None
+        return combined, output_file
+
+    print("❌ No data collected.")
+    return None, None
 
