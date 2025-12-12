@@ -3,28 +3,36 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import time
 
-def scrape_google_search():
-    queries = [
-        "quantum startup site:dualityaccelerator.com",
-        "quantum site:polsky.uchicago.edu",
-        "quantum spin-off site:unibas.ch",
-        "quantum incubator site:chalmers.se",
-        "quantum phd founder site:medium.com",
-        "quantum AND (accelerator OR incubator OR phd OR spin-off)",
-        "quantum startup cohort 2025",
-        "quantum + recently launched startup",
-        "quantum university lab commercialization",
-        "quantum site:news.mit.edu",
-        "quantum grant OR prize",
-        "quantum AND startup AND (ETH OR Zurich OR EPFL OR Imperial OR TU Munich OR Delft)",
-        "quantum site:qubitorbit.com",
-        "quantum site:cam.ac.uk",
-        "quantum site:ox.ac.uk",
-        "quantum startup site:linkedin.com",
-        "quantum early-stage university startup",
-        "quantum award startup site:edu",
-        "quantum innovation challenge winner",
-    ]
+
+def scrape_google_search(queries=None):
+    """Scrape standard Google results for quantum startup discovery queries.
+
+    Accepts an optional ``queries`` list. If none is provided we fall back to a
+    curated set that targets accelerators, university spinouts, and awards.
+    """
+
+    if not queries:
+        queries = [
+            "quantum startup site:dualityaccelerator.com",
+            "quantum site:polsky.uchicago.edu",
+            "quantum spin-off site:unibas.ch",
+            "quantum incubator site:chalmers.se",
+            "quantum phd founder site:medium.com",
+            "quantum AND (accelerator OR incubator OR phd OR spin-off)",
+            "quantum startup cohort 2025",
+            "quantum + recently launched startup",
+            "quantum university lab commercialization",
+            "quantum site:news.mit.edu",
+            "quantum grant OR prize",
+            "quantum AND startup AND (ETH OR Zurich OR EPFL OR Imperial OR TU Munich OR Delft)",
+            "quantum site:qubitorbit.com",
+            "quantum site:cam.ac.uk",
+            "quantum site:ox.ac.uk",
+            "quantum startup site:linkedin.com",
+            "quantum early-stage university startup",
+            "quantum award startup site:edu",
+            "quantum innovation challenge winner",
+        ]
 
     results = []
 
