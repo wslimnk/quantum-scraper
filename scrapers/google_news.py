@@ -1,25 +1,36 @@
-import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from scrapers.http import fetch_html
 
-def scrape_google_news():
-    queries = [
-        "quantum startup accelerator",
-        "quantum incubator winner",
-        "quantum phd founder",
-        "quantum spin-off university",
-        "quantum startup 2023",
-        "quantum grant prize innovation",
-        "quantum AND (incubator OR accelerator OR spin-off OR award OR grant OR prize)",
-    ]
+
+def scrape_google_news(queries=None):
+    """Scrape Google search (news vertical) results for quantum startup queries.
+
+    The function now accepts an optional ``queries`` list passed in from the
+    Streamlit app. If ``None`` is provided, we fall back to a sensible default
+    list that targets accelerators, incubators, and grant/award announcements.
+    """
+
+    if not queries:
+        queries = [
+            "quantum startup accelerator",
+            "quantum incubator winner",
+            "quantum phd founder",
+            "quantum spin-off university",
+            "quantum startup",
+            "quantum grant prize innovation",
+            "quantum AND (incubator OR accelerator OR spin-off OR award OR grant OR prize)",
+        ]
 
     results = []
 
     for query in queries:
         url = f"https://www.google.com/search?q={query.replace(' ', '+')}&num=10&hl=en"
-        headers = {"User-Agent": "Mozilla/5.0"}
-        response = requests.get(url, headers=headers)
-        soup = BeautifulSoup(response.text, "html.parser")
+        try:
+            html = fetch_html(url)
+        except Exception:
+            continue
+        soup = BeautifulSoup(html, "html.parser")
 
         for result in soup.select(".tF2Cxc"):
             title = result.select_one("h3")
